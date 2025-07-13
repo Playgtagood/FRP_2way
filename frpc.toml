@@ -1,0 +1,13 @@
+transport.tls.certFile = "/root/frp/ca/client.crt"
+transport.tls.keyFile = "/root/frp/ca/client.key"
+transport.tls.trustedCaFile = "/root/frp/ca/ca.crt"
+serverAddr = "x.x.x.x"
+serverPort = 7000
+
+[[proxies]]
+name = "ssh"
+type = "tcp"
+localIP = "192.168.0.110"
+localPort = 3389
+remotePort = 3389
+

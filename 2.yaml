@@ -1,0 +1,9 @@
+version: "3.0"
+services:
+        frpc:
+                build:
+                        context: .
+                        dockerfile: Dockerfileclient
+                image: frpc
+                container_name: frpc
+                entrypoint: ["/root/frp/frp/frpc","-c","/root/frp/frpc.toml"]

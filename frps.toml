@@ -1,0 +1,4 @@
+bindPort = 1997
+transport.tls.certFile = "/root/frp/ca/server.crt"
+transport.tls.keyFile = "/root/frp/ca/server.key"
+transport.tls.trustedCaFile = "/root/frp/ca/ca.crt"
