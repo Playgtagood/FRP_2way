@@ -7,3 +7,4 @@ services:
                 image: frpc
                 container_name: frpc
                 entrypoint: ["/root/frp/frp/frpc","-c","/root/frp/frpc.toml"]
+                restart: always

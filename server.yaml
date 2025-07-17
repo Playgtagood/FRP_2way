@@ -8,3 +8,4 @@ services:
     container_name: frps
     network_mode: host
     entrypoint: ["/root/frp/frp/frps","-c","/root/frp/frps.toml"]
+    restart: always
