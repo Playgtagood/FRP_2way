@@ -46,12 +46,12 @@ openssl genrsa -out ca/server.key 2048
 openssl req -new -sha256 -key ca/server.key \
 	    -subj "/C=XX/ST=DEFAULT/L=DEFAULT/O=DEFAULT/CN=server.com" \
 	        -reqexts SAN \
-		    -config <(cat ca/my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:localhost,IP:$IP,DNS:example.server.com")) \
+		    -config <(cat ca/my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:localhost,IP:$ip,DNS:example.server.com")) \
 		        -out ca/server.csr
 
 openssl x509 -req -days 365 -sha256 \
 	-in ca/server.csr -CA ca/ca.crt -CAkey ca/ca.key -CAcreateserial \
-	-extfile <(printf "subjectAltName=DNS:localhost,IP:$IP,DNS:example.server.com") \
+	-extfile <(printf "subjectAltName=DNS:localhost,IP:$ip,DNS:example.server.com") \
 	-out ca/server.crt
 
 openssl genrsa -out ca/client.key 2048
