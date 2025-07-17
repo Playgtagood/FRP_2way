@@ -1,6 +1,17 @@
 #!/bin/bash
-echo "Please Input Your IP ADDRESS:"
-read IP
+Address=($(ip a | grep inet | awk '{gsub(/\/.*/,"",$2);print $2}'))
+for i in ${!Address[@]};do
+		                echo "$i ${Address[$i]}"
+			        done
+				echo "Please Choose The Number Of Your IP:"
+				read index
+				if [[ "$index" =~ ^[0-9]+$ ]] && (( index >= 0 && index < ${#Address[@]} )); then
+					        ip=${Address[$index]}
+						echo $ip
+					else
+						echo "Fail!"
+				fi
+mkdir ca
 cat > ca/my-openssl.cnf << EOF
 [ ca ]
 default_ca = CA_default
@@ -35,7 +46,7 @@ openssl genrsa -out ca/server.key 2048
 openssl req -new -sha256 -key ca/server.key \
 	    -subj "/C=XX/ST=DEFAULT/L=DEFAULT/O=DEFAULT/CN=server.com" \
 	        -reqexts SAN \
-		    -config <(cat my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:localhost,IP:$IP,DNS:example.server.com")) \
+		    -config <(cat ca/my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:localhost,IP:$IP,DNS:example.server.com")) \
 		        -out ca/server.csr
 
 openssl x509 -req -days 365 -sha256 \
@@ -47,7 +58,7 @@ openssl genrsa -out ca/client.key 2048
 openssl req -new -sha256 -key ca/client.key \
 	    -subj "/C=XX/ST=DEFAULT/L=DEFAULT/O=DEFAULT/CN=client.com" \
 	        -reqexts SAN \
-		    -config <(cat my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:client.com,DNS:example.client.com")) \
+		    -config <(cat ca/my-openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:client.com,DNS:example.client.com")) \
 		        -out ca/client.csr
 
 openssl x509 -req -days 365 -sha256 \
